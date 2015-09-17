@@ -289,7 +289,7 @@ module NuEdit =
                 let entityTds = { DescribedEntity = entity; Form = form; WorldChangers = WorldChangers; RefWorld = RefWorld }
                 form.propertyGrid.SelectedObject <- entityTds
                 world
-            | _ -> world) // not an entity address
+            | _ -> world) // don't have an entity address
 
     let private handleFormCreate atMouse (form : NuEditForm) (_ : EventArgs) =
         ignore ^ WorldChangers.Add (fun world ->
@@ -593,7 +593,7 @@ module NuEdit =
                     subscribeToEntityEvents form world
                 else failwith ^ "Cannot attach NuEdit to a world with no groups inside the '" + acstring Simulants.EditorScreen + "' screen."
             else failwith ^ "Cannot attach NuEdit to a world with a screen selected other than '" + acstring Simulants.EditorScreen + "'."
-        | :? EditorState -> world // NOTE: assume already attached
+        | :? EditorState -> world // NOTE: precariously assume already attached. TODO: makes this not to precarious
         | _ -> failwith "Cannot attach NuEdit to a world that has a user state of a type other than unit or EditorState."
 
     let private run3 runWhile targetDir sdlDeps (form : NuEditForm) =
